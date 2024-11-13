@@ -1,0 +1,112 @@
+#include <iostream>
+using namespace std;
+class node {
+private:
+    int num;
+    node* next;
+public:
+    node(int _num) : num(_num), next(NULL) {}
+    void link(node* _next) { next = _next; }
+    node* getnext() { return next; }
+    int getnum() { return num; }
+    void operationnum(int _num) { num = _num; }
+};
+node* Delete_node(node* Last, node* Del);
+class code_2 {
+private:
+    int i;
+    node* hand = NULL;
+public:
+    code_2(int n, int* arr) {
+        Createcode(n, arr);
+    }
+    node* gethand() { return hand; }
+    void Createcode(int n, int* arr) {
+        node* p;
+        node* q;
+        for (i = 0; i < n; i++) {
+            p = new node(arr[i]);
+            if (hand == NULL) hand = p;
+            else q->link(p);
+            q = p;
+        }
+        p->link(NULL);
+    }
+
+    void Sortnode() {
+        if (!hand || !hand->getnext()) return;
+        bool swapped=true;
+        node *p;
+        while (swapped){
+            swapped = false;
+            p = hand;
+            while (p->getnext()) {
+                if (p->getnum() > p->getnext()->getnum()) {
+                    int temp = p->getnum();
+                    p->operationnum(p->getnext()->getnum());
+                    p->getnext()->operationnum(temp);
+                    swapped = true;
+                }
+                p = p->getnext();
+            }
+        }
+    }
+
+    void Shownode() {
+        node *p;
+        p = hand;
+        while (p) {
+            cout << p->getnum() << " ";
+            p = p->getnext();
+        }
+        cout << endl;
+
+    }
+
+    void Delete_repeatnode() {
+        node *p;
+        p = hand;
+        while (p && p->getnext()) {
+            if (p->getnum() == p->getnext()->getnum()) {
+                Delete_node(p, p->getnext());
+            } else {
+                p = p->getnext();
+            }
+        }
+    }
+    void Link_node(node* hand, node* tail) {
+        if (!hand || !tail) return;
+        node* _p = hand;
+        while (_p->getnext()) _p = _p->getnext();
+        _p->link(tail);
+    }
+    ~code_2() {
+        node *p;
+        while (p){
+            p=hand->getnext();
+            p=Delete_node(hand,p);
+        }
+    }
+
+};
+node* Delete_node(node* Last, node* Del) {
+    Last->link(Del->getnext());
+    delete Del;
+    return Last->getnext();
+}
+int main() {
+    int i = 5;
+    int a[] = {2, 2, 6, 4, 2};
+    int b[] = {3, 2, 1, 7, 2};
+    code_2 cn(i, a);
+    cn.Shownode();
+    code_2 bn(i, b);
+    bn.Shownode();
+    cn.Link_node(cn.gethand(), bn.gethand());
+    cn.Shownode();
+    cn.Sortnode();
+    cn.Shownode();
+    cn.Delete_repeatnode();
+    cn.Shownode();
+    return 0;
+}
