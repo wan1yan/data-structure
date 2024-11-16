@@ -14,7 +14,7 @@ public:
 };
 
 // 删除指定节点的函数
-node* Delete_node(node* Last, node* Del);
+node* Delete_node(node* Last, node* De);
 
 // 操作类
 class oper {
@@ -89,8 +89,8 @@ public:
         }
     }
     // 链接两个链表
-    void Link_node(node* hand, node* tail) {
-        if (!hand || !tail) return;
+    void Link_node(node* tail) {
+        if (!tail) return;
         node* p = hand;
         while (p->getnext()) p = p->getnext();
         p->link(tail);
@@ -98,34 +98,34 @@ public:
 
     // 析构函数，释放节点内存
     ~oper() {
-        node *p=hand;
+        node *p;
         while (p){
             p=hand->getnext();
-            hand=Delete_node(hand,p); // 删除当前节点并获取下一个节点
+            p=Delete_node(hand,p);
         }
     }
 };
 
 // 删除节点函数的实现
-node* Delete_node(node* Last, node* Del) {
-    Last->link(Del->getnext());
-    delete Del;
+node* Delete_node(node* Last, node* De) {
+    Last->link(De->getnext());
+    delete De;
     return Last->getnext();
 }
 
 int main() {
     int i = 5;
-    int a[] = {2, 2, 6, 4, 2}; 
-    int b[] = {3, 2, 1, 7, 2};   
-    oper cn(i, a);  
-    cn.Shownode(); // 显示第一个链表  
-    oper bn(i, b);  
-    bn.Shownode(); // 显示第二个链表  
-    cn.Link_node(cn.gethand(), bn.gethand()); // 将两个链表连接  
-    cn.Shownode(); // 显示连接后的链表  
-    cn.Sortnode(); // 对链表进行排序  
-    cn.Shownode(); // 显示排序后的链表  
-    cn.Delete_repeatnode(); // 删除重复节点  
-    cn.Shownode(); // 显示最终链表  
-    return 0; 
-}  
+    int a[] = {2, 2, 6, 4, 2};
+    int b[] = {3, 2, 1, 7, 2};
+    oper cn(i, a);
+    cn.Shownode(); // 显示第一个链表
+    oper bn(i, b);
+    bn.Shownode(); // 显示第二个链表
+    cn.Link_node(bn.gethand()); // 将两个链表连接
+    cn.Shownode(); // 显示连接后的链表
+    cn.Sortnode(); // 对链表进行排序
+    cn.Shownode(); // 显示排序后的链表
+    cn.Delete_repeatnode(); // 删除重复节点
+    cn.Shownode(); // 显示最终链表
+    return 0;
+}
